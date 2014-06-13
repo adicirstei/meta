@@ -7,6 +7,9 @@ function jsonml2text (jsonml) {
 function queryml (q, ml) {
     if ( ml === undefined || q === undefined )
         throw new Error('invalid arguments');
+        
+    if (q==='') 
+        return [];
     return ml;
 }
 
