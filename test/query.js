@@ -6,7 +6,7 @@ var queryml = require('../index.js').queryml;
 describe('queryml function', function() {
     var ml1, ml2, ml3;
     before(function () {
-        //ml = require('markdown').markdown.parse('## un fel [de](#) titlu\n\n paragraful *numaru* unu\n\nparagraful [numaru](x.html) doi\n\n### si un subtitlu');
+        
         ml1 = [
             "markdown",
             ["header", {"level": 2}, "un fel ", ["link", { "href": "#" }, "de"], " titlu"],
@@ -14,6 +14,9 @@ describe('queryml function', function() {
             ["para", "paragraful ", ["link", {"href": "x.html"}, "numaru"], " doi"],
             ["header", {"level": 3}, "si un subtitlu"]
         ];
+        ml2 = ["header", {"level": 2}, "un fel ", ["link", { "href": "#" }, "de"], " titlu"];
+        ml3 = [["para", " paragraful ", ["em", "numaru"], " unu"],
+            ["para", "paragraful ", ["link", {"href": "x.html"}, "numaru"], " doi"]];
 
     });
 
@@ -29,12 +32,14 @@ describe('queryml function', function() {
         }).to.throw(/invalid arguments/);
     });
     it('should behave as expected', function () {
-        expect(queryml('', ml1)).to.eq([]);
-        expect(queryml('/', ml1)).to.eq(ml1);
-        expect(queryml('/markdown', ml1)).to.eq([["header", {"level": 2}, "un fel ", ["link", { "href": "#" }, "de"], " titlu"],
-            ["para", " paragraful ", ["em", "numaru"], " unu"],
-            ["para", "paragraful ", ["link", {"href": "x.html"}, "numaru"], " doi"],
-            ["header", {"level": 3}, "si un subtitlu"]]);
+        var r;
+        expect(queryml('', ml1)).to.have.members([]);
+        expect(queryml('/', ml1)).to.have.members(ml1);
+        expect(queryml('/mark', ml1)).to.be.empty;
+        expect(queryml('/mark/down', ml1)).to.be.empty;
+        expect(queryml('/markdown', ml1)).to.have.members(ml1);
+        expect(queryml('/markdown/para', ml1)).to.eql(ml3);
+        expect(queryml('/markdown/header', ml1)[0]).to.eql(ml2);
     });
 });    
     
