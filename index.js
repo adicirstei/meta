@@ -1,7 +1,35 @@
 var md = require('markdown').markdown;
 
 function jsonml2text (jsonml) {
-    return '';
+
+    var data, r = [];
+    if (jsonml === undefined) {
+        throw new Error('invalid arguments');
+    }
+    if (jsonml.length === 0) {
+        return '';
+    }
+    if (jsonml[0] instanceof Array) {
+
+        return jsonml.reduce(function (prev, curr) {
+            prev.push(jsonml2text(curr));
+            return prev;
+        }, []).join(' ');
+    }
+    if (typeof jsonml[0] === 'string') {
+
+        if (typeof jsonml[1] === 'string' || jsonml[1] instanceof Array) {
+            data = jsonml.splice(1);
+        } else {
+            data = jsonml.splice(2);
+        }
+
+        return data.reduce(function (prev, curr, i) {
+            return prev + (i === 0 ? '' : ' ') + (curr instanceof Array ? jsonml2text(curr) : curr).trim();
+        }, '');
+    } else {
+        throw new Error('invalid markdown');
+    }
 }
 
 function queryml (q, ml) {

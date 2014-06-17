@@ -10,12 +10,12 @@ describe('jsonml2text function', function() {
         ml1 = [
             "markdown",
             ["header", {"level": 2}, "un fel ", ["link", { "href": "#" }, "de"], " titlu"],
-            ["para", " paragraful ", ["em", "numaru"], " unu"],
+            ["para", "paragraful ", ["em", "numaru"], " unu"],
             ["para", "paragraful ", ["link", {"href": "x.html"}, "numaru"], " doi"],
             ["header", {"level": 3}, "si un subtitlu"]
         ];
         ml2 = ["header", {"level": 2}, "un fel ", ["link", { "href": "#" }, "de"], " titlu"];
-        ml3 = [["para", " paragraful ", ["em", "numaru"], " unu"],
+        ml3 = [["para", "paragraful ", ["em", "numaru"], " unu"],
             ["para", "paragraful ", ["link", {"href": "x.html"}, "numaru"], " doi"]];
 
     });
@@ -28,11 +28,12 @@ describe('jsonml2text function', function() {
             jsonml2text();
         }).to.throw(/invalid arguments/);
     });
+
     it('should return the text portion of  as expected', function () {
-
-        expect(jsonml2text(ml1)).to.equal("un fel de titlu paragraful numaru unu paragraful numaru doi si un subtitlu");
-
+        expect(jsonml2text([])).to.eql("");
         expect(jsonml2text(ml2)).to.eql("un fel de titlu");
+        expect(jsonml2text(ml3)).to.equal("paragraful numaru unu paragraful numaru doi");
+        expect(jsonml2text(ml1)).to.equal("un fel de titlu paragraful numaru unu paragraful numaru doi si un subtitlu");
     });
 });    
     
