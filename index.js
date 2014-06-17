@@ -63,13 +63,13 @@ function queryml (q, ml) {
 
 function extract (text) {
     var jsonml = md.parse(text),
-        titlepath = '/markdown/heading[0]',
-        summarypath = '/markdown/para[0]'
+        titlepath = '/markdown/heading',
+        summarypath = '/markdown/para'
 
     return {
         tree: jsonml,
-        title: jsonml2text(queryml(titlepath, jsonml)),
-        summary: jsonml2text(queryml(summarypath, jsonml))
+        title: jsonml2text(queryml(titlepath, jsonml)[0]),
+        summary: jsonml2text(queryml(summarypath, jsonml)[0])
     };
 }
 
