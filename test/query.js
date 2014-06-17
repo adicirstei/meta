@@ -38,6 +38,7 @@ describe('queryml function', function() {
         expect(queryml('/mark', ml1)).to.be.empty;
         expect(queryml('/mark/down', ml1)).to.be.empty;
         expect(queryml('/markdown', ml1)).to.have.members(ml1);
+        expect(queryml('/markdown/heading', [ 'markdown', [ 'para', 'abcd' ] ])).to.be.empty;
         expect(queryml('/markdown/para', ml1)).to.eql(ml3);
         expect(queryml('/markdown/header', ml1)[0]).to.eql(ml2);
     });

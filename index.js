@@ -62,14 +62,24 @@ function queryml (q, ml) {
 }
 
 function extract (text) {
+    if (text === undefined)
+        throw new Error('invalid arguments');
     var jsonml = md.parse(text),
-        titlepath = '/markdown/heading',
+        titlepath = '/markdown/header',
         summarypath = '/markdown/para'
+    var titlemd = queryml(titlepath, jsonml);
 
+    if (titlemd.length > 0){
+        titlemd = titlemd[0];
+    }
+    var summd = queryml(summarypath, jsonml);
+    if (summd.length > 0){
+        summd = summd[0];
+    }
     return {
         tree: jsonml,
-        title: jsonml2text(queryml(titlepath, jsonml)[0]),
-        summary: jsonml2text(queryml(summarypath, jsonml)[0])
+        title: jsonml2text(titlemd),
+        summary: jsonml2text(summd)
     };
 }
 
