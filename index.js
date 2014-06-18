@@ -77,9 +77,9 @@ function extract (text) {
         summd = summd[0];
     }
     return {
-        tree: jsonml,
         title: jsonml2text(titlemd),
-        summary: jsonml2text(summd)
+        summary: jsonml2text(summd),
+        md: text
     };
 }
 
